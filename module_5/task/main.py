@@ -29,7 +29,7 @@ async def take_data(session: aiohttp.ClientSession, link:str) -> str:
     try:
         async with session.get(link) as response:
             if response.status == 200:
-                result = response.json()
+                result = await response.json()
                 return await result
                 
             
@@ -44,17 +44,18 @@ async def format_data(data:list):
     new_lst = list()
 
     for json in data:
-        my_dict = {json["date"]:{
-            "EUR": {
-                "sale": json["exchangeRate"][1]["saleRateNB"],
-                "purchase": json["exchangeRate"][1]["purchaseRateNB"]
-            },
-            "USD":{
-                "sale": json["exchangeRate"][6]["saleRateNB"],
-                "purchase": json["exchangeRate"][6]["saleRateNB"] 
-            } 
-        }}
-        new_lst.append(my_dict)
+        if json["exchangeRate"][1] and json["exchangeRate"][6]:
+            my_dict = {json["date"]:{
+                "EUR": {
+                    "sale": json["exchangeRate"][1]["saleRateNB"],
+                    "purchase": json["exchangeRate"][1]["purchaseRateNB"]
+                },
+                "USD":{
+                    "sale": json["exchangeRate"][6]["saleRateNB"],
+                    "purchase": json["exchangeRate"][6]["saleRateNB"] 
+                } 
+            }}
+            new_lst.append(my_dict)
     return new_lst
 
 async def main():
