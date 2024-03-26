@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  
+  db: 
+    image: postgres:16.1
+    environment:
+        POSTGRES_USER: root
+        POSTGRES_PASSWORD: nevermind
+        POSTGRES_DB: mydb
+        PGDATA: /var/lib/postgresql/data/pgdata
+    ports: 
+      - 8978:8978
+    volumes:
+      - type: bind
+        source: ./bd_data
+        target: /var/lib/postgresql/data
+      - type: bind
+        source: ./lesson_1
+        target: /lesson_examples
+      - type: bind
+        source: ./task
+        target: /task_files
+
+  adminer:
+    image: adminer:latest
+    ports:
+      - 8080:8080
