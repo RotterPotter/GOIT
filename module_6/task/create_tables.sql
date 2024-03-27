@@ -1,8 +1,8 @@
-drop table students;
-drop table teachers ;
-drop table subjects ;
-drop table scores ;
-drop table groups;
+drop table students cascade;
+drop table teachers cascade;
+drop table subjects cascade;
+drop table scores cascade;
+drop table groups cascade;
 
 create table students(
     id serial primary key,
@@ -28,7 +28,8 @@ create table groups(
 );
 
 create table scores(
-    subject_id int references subjects(id) on delete cascade,
     student_id int references students(id) on delete cascade,
-    score int
+    subject_id int references subjects(id) on delete cascade,
+    score int,
+    created_at timestamp default current_timestamp
 );  

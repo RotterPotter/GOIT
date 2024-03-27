@@ -10,7 +10,8 @@ services:
         POSTGRES_DB: mydb
         PGDATA: /var/lib/postgresql/data/pgdata
     ports: 
-      - 8978:8978
+      - 5432:5432
+     
     volumes:
       - type: bind
         source: ./bd_data
@@ -21,7 +22,7 @@ services:
       - type: bind
         source: ./task
         target: /task_files
-
+    
   adminer:
     image: adminer:latest
     ports:
